@@ -1,0 +1,44 @@
+Series 1000: Cuboid detectors, 20x20mm2 inner, 40x40mm2 outer
+1020 - For visualization, 100 events
+1021 - Same as 1020, no visualization with 10k events
+1022 - Same as 1020, up-down detectors instead of left-right, 10k events
+1023 - Same as 1022, add magnetic field volume with zero field, 10k events
+1024 - Same as 1022, change sample size from 10mm to 5mm radius, 10k events
+1025 - Same as 1024, should be cleaned, 10k events
+1030 - Same as 1024, turned on det_VrtxParticleID, 1M events
+1031 - Same as 1030, change beam sigma_x,y from 0 to 10mm, 1M events
+1032 - Same as 1030, with visualization,
+
+Series 2000: 2 layers upstream and 2 downstream, 40x40mm2 each layer
+2000 - Beam sigma_x,y 0, 100k events
+2001 - Same as 2000, beam sigma_x,y 4mm, 100k events
+2100 - Same as 2000, add 20um Kapton layer (Si layer always facing target), 100k events
+2101 - Same as 2100, beam sigma_x,y 4mm, 100k events
+2200 - Same at 2100, spacing between sets increased by 10mm (sets moved by 5mm away from target)
+2300 - Same at 2100, spacing between sets increased by 20mm (sets moved by 10mm away from target)
+
+Series 3000: Same as Series 2100 but splitting the detectors into active regions
+3000 - Beam sigma_x,y 0, 100 events for visualization,  sigma_x,y 0 makes no sense!
+3001 - Same as 3000, sigma_x,y 4, 100k events
+3002 - Same as 3001, spacing between Si-Pixels 50um.
+3003 - Same as 3001, spacing between Si-Pixels 100um.
+3004 - Same as 3001, spacing between Si-Pixels 200um.
+3005 - Same as 3001, spacing between Si-Pixels 150um.
+3006 - Same as 3001, spacing between Si-Pixels 250um.
+3013 - Same as 3003, beam offset 1,1
+3023 - Same as 3003, beam offset 2,2
+3033 - Same as 3003, beam offset 3.5,3.5
+3043 - Same as 3003, beam offset 5,5
+3053 - Same as 3003, beam offset 7.5,7.5
+3063 - Same as 3003, beam offset 10,10
+3103 - Same as 3003, beam and sample offset 1,1
+3203 - Same as 3003, beam and sample offset 2,2
+3303 - Same as 3003, beam and sample offset 3.5,3.5
+3403 - Same as 3003, beam and sample offset 5,5
+3503 - Same as 3003, beam and sample offset 7.5,7.5
+3603 - Same as 3003, beam and sample offset 10,10
+
+Series 4000: Same as Series 3000 but changing the spacing between two Si-Pixel Layers
+4000 - Same as 3003
+
+

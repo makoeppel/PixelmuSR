@@ -1,0 +1,3 @@
+[submodule "musrsim"]
+	path = musrsim
+	url = git@bitbucket.org:zaher-salman/musrsim.git

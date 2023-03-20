@@ -1,0 +1,353 @@
+#-----------------------------------------------------------------------
+# Macro file for muSR instrument simulations 
+# GPS Mark-II template
+# Unless specified otherwises, the default units are mm, ns, MeV, MeV/c.
+# Lines starting with star "#" are comments.
+#
+###################################################################################
+#############################  G E O M E T R Y  ###################################
+###################################################################################
+#
+#=============================
+# ROTATION MATRIXES:
+/musr/command rotation matrix1           0     0     45
+/musr/command rotation matrix2           0   180      0
+/musr/command rotation matrix3           0   270      0
+# Inner ring rotations - 8 segments, 0 deg tilt
+/musr/command rotation matlti1            0   1    0   -45
+/musr/command rotation matlti2            0   1    0   0
+/musr/command rotation matlti3            0   1    0   45
+/musr/command rotation matlti4            0   1    0   90
+/musr/command rotation matlti5            0   1    0   135
+/musr/command rotation matlti6            0   1    0   180
+/musr/command rotation matlti7            0   1    0   225
+/musr/command rotation matlti8            0   1    0   270
+# Outer ring rotations - 10 segments, 0 deg tilt
+/musr/command rotation matlto1            0   1    0   -45
+/musr/command rotation matlto2            0   1    0   -9
+/musr/command rotation matlto3            0   1    0   27
+/musr/command rotation matlto4            0   1    0   63
+/musr/command rotation matlto5            0   1    0   99
+/musr/command rotation matlto6            0   1    0   135
+/musr/command rotation matlto7            0   1    0   171
+/musr/command rotation matlto8            0   1    0   -153
+/musr/command rotation matlto9            0   1    0  -117
+/musr/command rotation matlto10            0   1    0   -81
+#
+#=============================
+# WORLD VOLUME
+#
+/musr/command construct box             World          30   30    30                   G4_Galactic                  0      0       0    no_logical_volume norot  dead            -1
+#
+#############Remove here to test in GPS#####################
+#/musr/command construct tubs            tube            35.45 38.05  315      0    360     Steel                        0      0    -613    log_World         norot  dead          8201
+#/musr/command construct tubs            tube_a           0    35.45  315      0    360     G4_Galactic                  0      0    -613    log_World         norot  dead          8251
+#
+#=============================
+# SECOND COLLIMATOR
+#
+#/musr/command construct tubs            shield_collimA2 10    35      25      0    360     G4_Cu                        0      0     290    log_tube_a        norot   dead          341
+#
+#=============================
+#   OLD ALC DESIGN:  MSR 20.05.083      Flange
+#
+#/musr/command construct tubs            flange          38.05 90       6      0    360     Steel                        0      0    -934    log_World         norot   dead         8301
+#
+##############End of Removed to test in GPS################
+#=============================
+# POSITRON COUNTERS FORWARD BACKWARD UP DOWN RIGHT LEFT
+#
+#/musr/command construct GPSbackward     forwardCounter  25    25       2.5    9.1   11.9   G4_PLASTIC_SC_VINYLTOLUENE   0      0      26.5  log_World         norot   musr/ScintSD    1
+#/musr/command construct GPSbackward     backwardCounter 30    30       2.5    8.80   7.64  G4_PLASTIC_SC_VINYLTOLUENE   0      0     -30.0  log_World         norot   musr/ScintSD    2
+#/musr/command construct box             up              2.5  53      53                   G4_PLASTIC_SC_VINYLTOLUENE  57.5    0       0    log_World         norot   musr/ScintSD    3
+#/musr/command construct box             down            2.5  53      53                   G4_PLASTIC_SC_VINYLTOLUENE -57.5    0       0    log_World         norot   musr/ScintSD    4
+#/musr/command construct box             right1          53     2.5    14                   G4_PLASTIC_SC_VINYLTOLUENE   0    -56.25  -38    log_World         norot   musr/ScintSD    5
+#/musr/command construct box             right2          53     2.5    14                   G4_PLASTIC_SC_VINYLTOLUENE   0    -56.25   38    log_World         norot   musr/ScintSD    6
+#/musr/command construct box             right3          35     2.5    20                   G4_PLASTIC_SC_VINYLTOLUENE   0    -51.25    0    log_World         norot   musr/ScintSD    7
+#/musr/command construct box             left1           53     2.5    19.3                 G4_PLASTIC_SC_VINYLTOLUENE   0     72.5   -48.3  log_World         norot   musr/ScintSD    8
+#/musr/command construct box             left2           53     2.5    19.3                 G4_PLASTIC_SC_VINYLTOLUENE   0     72.5    48.3  log_World         norot   musr/ScintSD    9
+# FORWARD VETO
+#/musr/command construct GPSbackwardVeto forwVetoA        9.   11.8     9.    11.8    2.5    6.25    6.7    6.25    6.7  G4_PLASTIC_SC_VINYLTOLUENE   0      0      26.5  log_World         norot   musr/ScintSD   51
+#/musr/command construct GPSbackwardVeto forwVetoB       11.8  18.9    11.8   18.9   15      6.7    13.8    6.7    13.8  G4_PLASTIC_SC_VINYLTOLUENE   0      0      44.0  log_World         norot   musr/ScintSD   51
+#/musr/command construct box             forwVetoD       18.9  18.9     2.5                 G4_PLASTIC_SC_VINYLTOLUENE   0      0      61.5  log_World         norot   musr/ScintSD   51
+# BACKWARD VETO
+#/musr/command construct GPSbackwardVeto backwardVeto    35.13  7.63   35.13   7.63  60     31       3.5   31       3.5  G4_PLASTIC_SC_VINYLTOLUENE   0      0     -87.5  log_World         norot   musr/ScintSD   52
+#=============================
+# Pixel detectors
+#
+# /musr/command construct box  name_of_pixel  xlen ylen zlen  G4_SI_SC   xcoor ycoor zcoor  log_World  rot_mat   musr/ScintSD    5??
+# Inner set of pixel detectors 
+/musr/command construct box  pixeli1  9.965  9.965  0.025 G4_Si     10.050   10.050   -10.0 log_World  norot  musr/ScintSD    501
+/musr/command construct box  pixeli2  9.965  9.965  0.025 G4_Si     10.050  -10.050   -10.0 log_World  norot  musr/ScintSD    502
+/musr/command construct box  pixeli3  9.965  9.965  0.025 G4_Si    -10.050   10.050   -10.0 log_World  norot  musr/ScintSD    503
+/musr/command construct box  pixeli4  9.965  9.965  0.025 G4_Si    -10.050  -10.050   -10.0 log_World  norot  musr/ScintSD    504
+/musr/command construct box  pixeli5  9.965  9.965  0.025 G4_Si     10.050   10.050    10.0 log_World  norot  musr/ScintSD    505
+/musr/command construct box  pixeli6  9.965  9.965  0.025 G4_Si     10.050  -10.050    10.0 log_World  norot  musr/ScintSD    506
+/musr/command construct box  pixeli7  9.965  9.965  0.025 G4_Si    -10.050   10.050    10.0 log_World  norot  musr/ScintSD    507
+/musr/command construct box  pixeli8  9.965  9.965  0.025 G4_Si    -10.050  -10.050    10.0 log_World  norot  musr/ScintSD    508
+# Outer set of pixel detectors 
+/musr/command construct box  pixelo1  9.965  9.965  0.025 G4_Si     10.050   10.050  -20.0 log_World  norot  musr/ScintSD    601
+/musr/command construct box  pixelo2  9.965  9.965  0.025 G4_Si     10.050  -10.050  -20.0 log_World  norot  musr/ScintSD    602
+/musr/command construct box  pixelo3  9.965  9.965  0.025 G4_Si    -10.050   10.050  -20.0 log_World  norot  musr/ScintSD    603
+/musr/command construct box  pixelo4  9.965  9.965  0.025 G4_Si    -10.050  -10.050  -20.0 log_World  norot  musr/ScintSD    604
+/musr/command construct box  pixelo5  9.965  9.965  0.025 G4_Si     10.050   10.050   20.0 log_World  norot  musr/ScintSD    605
+/musr/command construct box  pixelo6  9.965  9.965  0.025 G4_Si     10.050  -10.050   20.0 log_World  norot  musr/ScintSD    606
+/musr/command construct box  pixelo7  9.965  9.965  0.025 G4_Si    -10.050   10.050   20.0 log_World  norot  musr/ScintSD    607
+/musr/command construct box  pixelo8  9.965  9.965  0.025 G4_Si    -10.050  -10.050   20.0 log_World  norot  musr/ScintSD    608
+
+# Add Kapton support layers
+# Inner set of pixel detectors 
+/musr/command construct box  kaptoni1  22  22  0.0125 G4_KAPTON   0.0  0.0   -10.038 log_World  norot  dead    511
+/musr/command construct box  kaptoni2  22  22  0.0125 G4_KAPTON   0.0  0.0    10.038 log_World  norot  dead    512
+# Outer set of pixel detectors 
+/musr/command construct box  kaptono1  22  22  0.0125 G4_KAPTON   0.0  0.0  -20.038 log_World  norot  dead    611
+/musr/command construct box  kaptono2  22  22  0.0125 G4_KAPTON   0.0  0.0   20.038 log_World  norot  dead    612
+
+# Add passive Si edges (90 um)
+# Inner set of pixel detectors 
+/musr/command construct boxbox  iedge1  9.965  9.965  0.025 10 10 0.025 G4_Si     10.050   10.050   -10.0 log_World  norot  dead    521
+/musr/command construct boxbox  iedge2  9.965  9.965  0.025 10 10 0.025 G4_Si     10.050  -10.050   -10.0 log_World  norot  dead    522
+/musr/command construct boxbox  iedge3  9.965  9.965  0.025 10 10 0.025 G4_Si    -10.050   10.050   -10.0 log_World  norot  dead    523
+/musr/command construct boxbox  iedge4  9.965  9.965  0.025 10 10 0.025 G4_Si    -10.050  -10.050   -10.0 log_World  norot  dead    524
+/musr/command construct boxbox  iedge5  9.965  9.965  0.025 10 10 0.025 G4_Si     10.050   10.050    10.0 log_World  norot  dead    525
+/musr/command construct boxbox  iedge6  9.965  9.965  0.025 10 10 0.025 G4_Si     10.050  -10.050    10.0 log_World  norot  dead    526
+/musr/command construct boxbox  iedge7  9.965  9.965  0.025 10 10 0.025 G4_Si    -10.050   10.050    10.0 log_World  norot  dead    527
+/musr/command construct boxbox  iedge8  9.965  9.965  0.025 10 10 0.025 G4_Si    -10.050  -10.050    10.0 log_World  norot  dead    528
+# Outer set of pixel detectors 
+/musr/command construct boxbox  oedge1  9.965  9.965  0.025 10 10 0.025 G4_Si     10.050   10.050  -20.0 log_World  norot  dead    621
+/musr/command construct boxbox  oedge2  9.965  9.965  0.025 10 10 0.025 G4_Si     10.050  -10.050  -20.0 log_World  norot  dead    622
+/musr/command construct boxbox  oedge3  9.965  9.965  0.025 10 10 0.025 G4_Si    -10.050   10.050  -20.0 log_World  norot  dead    623
+/musr/command construct boxbox  oedge4  9.965  9.965  0.025 10 10 0.025 G4_Si    -10.050  -10.050  -20.0 log_World  norot  dead    624
+/musr/command construct boxbox  oedge5  9.965  9.965  0.025 10 10 0.025 G4_Si     10.050   10.050   20.0 log_World  norot  dead    625
+/musr/command construct boxbox  oedge6  9.965  9.965  0.025 10 10 0.025 G4_Si     10.050  -10.050   20.0 log_World  norot  dead    626
+/musr/command construct boxbox  oedge7  9.965  9.965  0.025 10 10 0.025 G4_Si    -10.050   10.050   20.0 log_World  norot  dead    627
+/musr/command construct boxbox  oedge8  9.965  9.965  0.025 10 10 0.025 G4_Si    -10.050  -10.050   20.0 log_World  norot  dead    628
+
+#
+#=============================
+# OUTER SHIELD
+#/musr/command construct tubeWithWindows tube1           20    21      33.5   14.5   33.5 14.5 33.5                      G4_Cu                        0      0       0    log_World         matrix3 dead          401
+#/musr/command construct tubs            bottom1          0    20       0.5    0    360     G4_Cu      0    -33.0     0    log_World         matrix3 dead          402
+#/musr/command construct tubs            window1         21    21.010  15      0    360     G4_Cu      0      0       0    log_World         matrix3 dead          403
+#/musr/command construct tubs            bottom1a         0    20       0.5    0    360     G4_Cu      0     33.0     0    log_World         matrix3 dead          404
+# INNER SHIELD  
+#/musr/command construct tubeWithWindows tube2           11.5  12.5    21.5    7.5   21.5 10.  21.5                      G4_Cu                        0      0       0    log_World         matrix3 dead          411
+#/musr/command construct tubs            bottom2          0    11.5     3.0    0    360     G4_Cu      0    -21.5     0    log_World         matrix3 dead          412
+#/musr/command construct tubs            window2         12.5  12.510   8      0    360     G4_Cu      0      0       0    log_World         matrix3 dead          413
+#/musr/command construct tubs            bottom2a         0    11.5     3.0    0    360     G4_Cu      0     21.5     0    log_World         matrix3 dead          414
+# HEATER
+#/musr/command construct tubs            heater          16    16.3     7.5    0    360     G4_Cu      0    -18.5     0    log_World         matrix3 dead          415
+#=============================
+#
+#=============================
+# M COUNTERS AND M COUNTER HOLDER
+#/musr/command construct tubs            M0               0     7.5     0.15   0    360    G4_PLASTIC_SC_VINYLTOLUENE    0      0     -25.0  log_World         norot   musr/ScintSD  102
+#=============================
+#
+#=============================
+# TARGET
+/musr/command construct tubs   target           0     5.0    0.25  0    360    G4_Ag       0 0 0    log_World   norot   dead   201
+/musr/command construct tubs   saveTarget       0     10.0    0.01    0    360    G4_Galactic 0 0 -0.26    log_World   norot   dead   253 
+#/musr/command construct tubs   targetFieldVol   0     0.5    0.015  0    360    G4_Ag     0      0       0    log_target  norot   dead          202
+#=============================
+#
+#=============================
+/musr/command visattributes             G4_PLASTIC_SC_VINYLTOLUENE invisible
+/musr/command visattributes             G4_PLEXIGLASS yellow
+/musr/command visattributes             G4_Pb blue
+/musr/command visattributes             G4_Ag red
+/musr/command visattributes             log_World invisible
+/musr/command visattributes             log_target red
+/musr/command visattributes             G4_Si blue
+/musr/command visattributes             G4_KAPTON yellow
+/musr/command visattributes             G4_Al green
+#
+###################################################################################
+#########################  M A G N E T I C     F I E L D  #########################
+###################################################################################
+# Set magnetic field  (set field intensity in T and sigma in mm)
+# syntax for magneticfield:  fromfile filename fieldValue
+#                            uniform  fieldValue         
+#                            gaussian fieldValue sigma
+#                            
+#/musr/command globalfield               centralSolenoidField     0.   0.   0. fromfile 3DBOpera GPS_WEP_xyz_Sym_2_from_000_cgs.table log_targetFieldVol 0.005
+#/musr/command globalfield               centralSolenoidField     0.   0.   0. fromfile 2D       GPS_6kG_yAx_xRad_cgs.table           log_targetFieldVol 0.300
+/musr/command globalfield               setparameter             SetLargestAcceptableStep 2
+/musr/command globalfield               setparameter             SetMinimumEpsilonStep 5e-5
+/musr/command globalfield               setparameter             SetMaximumEpsilonStep 0.001
+/musr/command globalfield               setparameter             SetDeltaOneStep 0.1
+/musr/command globalfield               setparameter             SetDeltaIntersection 0.01
+/musr/command globalfield               printparameters
+/musr/command globalfield               printFieldValueAtPoint   0    0    0
+/musr/command globalfield               printFieldValueAtPoint   0    0    4
+/musr/command globalfield               printFieldValueAtPoint   0    0    8
+/musr/command globalfield               printFieldValueAtPoint   0    0   12
+/musr/command globalfield               printFieldValueAtPoint   0    0   16
+/musr/command globalfield               printFieldValueAtPoint   0    0   20
+/musr/command globalfield               printFieldValueAtPoint   4    0    0
+/musr/command globalfield               printFieldValueAtPoint   0    4    0
+/musr/command globalfield               printFieldValueAtPoint  80   80  200
+#
+###################################################################################
+#########################  P H Y S I C S      P R O C E S S E S  ##################
+###################################################################################
+# Geant 4.9.3
+/musr/command process addDiscreteProcess gamma G4PhotoElectricEffect
+/musr/command process addDiscreteProcess gamma G4ComptonScattering
+/musr/command process addDiscreteProcess gamma G4GammaConversion
+/musr/command process addDiscreteProcess gamma G4RayleighScattering
+/musr/command process addProcess         e-    G4eMultipleScattering    -1  1  1
+/musr/command process addProcess         e-    G4eIonisation            -1  2  2
+/musr/command process addProcess         e-    G4eBremsstrahlung        -1  3  3
+/musr/command process addProcess         e+    G4eMultipleScattering    -1  1  1
+/musr/command process addProcess         e+    G4eIonisation            -1  2  2
+/musr/command process addProcess         e+    G4eBremsstrahlung        -1  3  3
+/musr/command process addProcess         e+    G4eplusAnnihilation       0 -1  4
+/musr/command process addProcess         mu-   G4MuMultipleScattering   -1  1  1
+/musr/command process addProcess         mu-   G4MuIonisation           -1  2  2
+/musr/command process addProcess         mu-   G4MuBremsstrahlung       -1  3  3
+/musr/command process addProcess         mu-   G4MuPairProduction       -1  4  4
+/musr/command process addProcess         mu+   G4MuMultipleScattering   -1  1  1
+#/musr/command process addModel           mu+   G4MuMultipleScattering   G4UrbanMscModel92 0
+/musr/command process addProcess         mu+   G4MuIonisation           -1  2  2
+/musr/command process addProcess         mu+   G4MuBremsstrahlung       -1  3  3
+/musr/command process addProcess         mu+   G4MuPairProduction       -1  4  4
+#
+#
+#/home/install/geant4.9.3/source/processes/electromagnetic/utils/src/G4EnergyLossMessenger.cc
+######## /process/msc/StepLimit Minimal | UseDistanceToBoundary | UseSafety 
+/process/msc/StepLimit UseSafety
+#/process/msc/LateralDisplacement
+/process/msc/RangeFactor 0.04
+/process/msc/GeomFactor 2.5
+#/process/msc/FactorForAngleLimit
+/process/msc/Skin 3.0
+#/process/msc/ThetaLimit 0.2 rad
+#
+###################################################################################
+##################  S O M E   O T H E R    P A R A M E T E R S   ##################
+###################################################################################
+# Set the overall range cut
+#/run/setCut 1 mm
+# Set the range cut on a particular volumes (in mm)
+/musr/command SetUserLimits log_target 0.01
+#/musr/command SetUserLimits log_targetscint 0.01
+#/musr/command SetUserLimits log_M0 0.01
+# Store all events into the ROOT tree or just the interesting ones ? (true is default)
+#/musr/command storeOnlyEventsWithHits false
+# Set the minimum time separation between two subsequent signals in the same detector (in ns)
+/musr/command signalSeparationTime 0.1
+#
+/musr/run/howOftenToPrintEvent 1000
+/musr/command maximumRunTimeAllowed 86000
+/musr/run/randomOption 2
+###################################################################################
+#########################   R O O T     O U T P U T  ##############################
+###################################################################################
+#
+#/musr/command rootOutput det_edep_el          off
+#/musr/command rootOutput det_edep_pos         off
+#/musr/command rootOutput det_edep_gam         off
+#/musr/command rootOutput det_edep_mup         off
+#/musr/command rootOutput det_nsteps           off
+#/musr/command rootOutput det_length           off
+#/musr/command rootOutput det_time_end         off
+#/musr/command rootOutput det_kine             off
+/musr/command rootOutput det_VrtxKine         off
+/musr/command rootOutput det_VrtxX            off
+/musr/command rootOutput det_VrtxY            off
+/musr/command rootOutput det_VrtxZ            off
+/musr/command rootOutput det_VrtxVolID        off
+/musr/command rootOutput det_VrtxProcID       off
+/musr/command rootOutput det_VrtxTrackID      off
+/musr/command rootOutput det_VrtxParticleID   on
+/musr/command rootOutput det_VvvKine          off
+/musr/command rootOutput det_VvvX             off
+/musr/command rootOutput det_VvvY             off
+/musr/command rootOutput det_VvvZ             off
+/musr/command rootOutput det_VvvVolID         off
+/musr/command rootOutput det_VvvProcID        off
+/musr/command rootOutput det_VvvTrackID       off
+/musr/command rootOutput det_VvvParticleID    off
+/musr/command rootOutput odet_ID              off
+/musr/command rootOutput odet_nPhot           off
+/musr/command rootOutput odet_timeFirst       off
+/musr/command rootOutput odet_timeSecond      off
+/musr/command rootOutput odet_timeThird       off
+/musr/command rootOutput odet_timeA           off
+/musr/command rootOutput odet_timeB           off
+/musr/command rootOutput odet_timeC           off
+/musr/command rootOutput odet_timeD           off
+/musr/command rootOutput odet_timeMean        off
+/musr/command rootOutput odet_timeLast        off
+/musr/command rootOutput odet_timeCFD         off
+/musr/command rootOutput odet_amplCFD         off
+/musr/command rootOutput nOptPhot             off
+#
+###################################################################################
+#########################  V I S U A L I S A T I O N ##############################
+###################################################################################
+#/vis/disable
+#/control/execute visVRML.mac
+#/control/execute visFromToni.mac
+#/control/execute visDawn50001.mac
+#/vis/open VRML2FILE
+#/vis/open DAWNFILE
+### (if too many tracks cause core dump => storeTrajectory 0)
+#/vis/scene/create
+#
+#/tracking/storeTrajectory 1
+#/vis/viewer/set/viewpointThetaPhi  90 0
+##/vis/viewer/set/globalLineWidthScale 3
+#/vis/viewer/zoom 30
+###/vis/scene/add/trajectories
+#/vis/drawVolume
+#/vis/viewer/flush
+####/hits/verbose 2
+#
+###################################################################################
+######################### P A R T I C L E   G U N #################################
+###################################################################################
+#
+/gun/vertex 0 0 -29 mm
+# FWHM 10mm ==> sigma = 10/2.354 = 4.2481mm
+#####################
+#/gun/vertexsigma 0 0 0 mm
+/gun/vertexsigma 4 4 0 mm
+#####################
+#---/gun/vertexboundary: rMaxAllowed, zMinAllowed, zMaxAllowed
+/gun/vertexboundary 128 -999999 999999 mm
+#####################
+/gun/momentum 27.0 MeV
+#####################
+# sigma = 3%  ==> sigma 27*0.03 = 0.81
+/gun/momentumsmearing 0.81 MeV
+#---/gun/momentumboundary: pMinAllowed, pMaxAllowed, dummy
+#/gun/momentumboundary 20 40 0 MeV
+# TURTLE
+#/gun/turtlefilename FOR061_2008_04_22.DAT
+#/gun/turtlefilename FOR070_2008_10_17_XXII.DAT
+#/gun/turtlefilename FOR077_pie3_HiField_d05_x30.dat
+#/gun/turtlefilename FOR077_reggiani_Jan2010_NEW.dat
+#######################/gun/turtlefilename FOR077_reggiani_Feb2010.dat
+#/gun/turtleZ0position -900 mm
+#---/gun/tilt: xangle, yangle, dummy
+#/gun/tilt 0  0.5  0 deg
+#---/gun/tiltsigma: xangleSigma, yangleSigma, dummy  (1 degree on 1 meter ~ 17mm)
+#/gun/tiltsigma 0.2 0.2 0 deg
+#/gun/pitch 0.5 deg
+# Spin rotated by 50 degrees upwards:
+#/gun/muonPolarizVector 0.173648 0. -0.98480775
+/gun/muonPolarizVector 0. 0. -1.0
+#---/gun/decaytimelimits:  decayMin, decayMax, decayTime
+#/gun/decaytimelimits 400 410 2197.03 ns
+/gun/decaytimelimits -1 -1 2197.03 ns
+#
+#
+###################################################################################
+########################  B E A M    O N  #########################################
+###################################################################################
+#
+#/run/beamOn 3000000
+#/run/beamOn 100000
+/run/beamOn 100000
