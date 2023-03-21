@@ -50,12 +50,14 @@ for run in range(10):
         file.write(new_file)
 
     subprocess.run(f"musrsim/build/musrSim runfiles/400{run}.mac", shell=True)
+    subprocess.run(f"mv data/musr_0.root data/musr_400{run}.root", shell=True)
 
     root_script = ""
     root_script += "#include \"SiSpect.h\"\n"
     root_script += "#include \"SiSpect.C\"\n"
 
-    root_script += "void run_spacing_ana() {\n"
+    root_script += f"void run_spacing_ana_{run}"
+    root_script += "() {\n"
     root_script += f"TFile* fin=new TFile(\"data/musr_400{run}.root\");\n"
     root_script += "SiSpect t;\n"
     root_script += f"t.QCoinIO(true, 0, {run});\n"
@@ -63,5 +65,8 @@ for run in range(10):
 
     with open(f"run_spacing_ana_{run}.C", "w") as file:
         file.write(root_script)
+
+    subprocess.run(f"root -q run_spacing_ana_{run}.C", shell=True)
+    subprocess.run(f"rm run_spacing_ana_{run}.C", shell=True)
 
 
