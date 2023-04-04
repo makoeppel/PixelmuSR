@@ -1,7 +1,22 @@
 import subprocess
+import argparse
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
 
+
+parser = argparse.ArgumentParser(description='Ana mid files')
+parser.add_argument('-s', '--sim', action='store', type=str, default="n", help='Run simulation if set to y default (n).')
+parser.add_argument('-r', '--root', action='store', type=str, default="n", help='Run root script if set to y default (n).')
+
+args = parser.parse_args()
 
 #root -e "#include \"SiSpect.h\"" -e "#include \"SiSpect.C\""
+spacing = []
+meanX = []
+meanY = []
+stdX = []
+stdY = []
 for pmidx, pm in enumerate(["minus", "plus"]):
     for run in range(10):
         # start to create run files
@@ -39,8 +54,10 @@ for pmidx, pm in enumerate(["minus", "plus"]):
                         if si == "log_World" and cur_s[i-1] == "20.0":
                             if pm == "minus":
                                 cur_s[i-1] = str(float(cur_s[i-1])-run)
+                                spacing.append(10-run)
                             if pm == "plus":
                                 cur_s[i-1] = str(float(cur_s[i-1])+run)
+                                spacing.append(10+run)
                         if si == "log_World" and cur_s[i-1] == "-20.0":
                             if pm == "minus":
                                 cur_s[i-1] = str(float(cur_s[i-1])+run)
@@ -56,8 +73,9 @@ for pmidx, pm in enumerate(["minus", "plus"]):
         with open(f"runfiles/400{run}_{pm}.mac", "w") as file:
             file.write(new_file)
 
-        subprocess.run(f"musrsim/build/musrSim runfiles/400{run}_{pm}.mac", shell=True)
-        subprocess.run(f"mv data/musr_0.root data/musr_400{run}_{pm}.root", shell=True)
+        if args.sim == "y":
+            subprocess.run(f"musrsim/build/musrSim runfiles/400{run}_{pm}.mac", shell=True)
+            subprocess.run(f"mv data/musr_0.root data/musr_400{run}_{pm}.root", shell=True)
 
         root_script = ""
         root_script += "#include \"SiSpect.h\"\n"
@@ -73,7 +91,26 @@ for pmidx, pm in enumerate(["minus", "plus"]):
         with open(f"run_spacing_ana_{run}_{pm}.C", "w") as file:
             file.write(root_script)
 
-        subprocess.run(f"root -q run_spacing_ana_{run}_{pm}.C", shell=True)
-        subprocess.run(f"rm run_spacing_ana_{run}_{pm}.C", shell=True)
+        if args.root == "y":
+            subprocess.run(f"root -q run_spacing_ana_{run}_{pm}.C", shell=True)
+            subprocess.run(f"rm run_spacing_ana_{run}_{pm}.C", shell=True)
 
+        # remove last 3 elements
+        spacing = spacing[:len(spacing)-3]
+        df = pd.read_csv(f"output/Stats-hMuIOxy-QCoinIO-{run+10*pmidx}.csv")
+        meanX.append(df["meanx"].values[0])
+        meanY.append(df["meany"].values[0])
+        stdX.append(df["stdx"].values[0])
+        stdY.append(df["stdy"].values[0])
 
+# plot stuff
+fig, axs = plt.subplots(2, 2, constrained_layout=True)
+axs[0][0].plot(spacing, meanX, ".")
+axs[0][0].set(xlabel='distance layers', ylabel='meanX')
+axs[0][1].plot(spacing, meanY, ".")
+axs[0][1].set(xlabel='distance layers', ylabel='meanY')
+axs[1][0].plot(spacing, stdX, ".")
+axs[1][0].set(xlabel='distance layers', ylabel='stdX')
+axs[1][1].plot(spacing, stdY, ".")
+axs[1][1].set(xlabel='distance layers', ylabel='stdY')
+plt.savefig("output/distance_layers_vs_sigma_xy.pdf")

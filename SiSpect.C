@@ -23,6 +23,8 @@ PionPlus=  211;
 #include <TFile.h>
 #include <TSystem.h>
 #include <TTree.h>
+#include <iostream>
+#include <fstream>
 
 /*
 To use
@@ -1100,6 +1102,17 @@ void SiSpect::QCoinIO( Bool_t FigFlag, Double_t aCut, int run)
      det_edep_mup->Draw("sames");
      det_edep_mup->SetLineColor(kPink);*/
      c1->cd(6);
+     printf("");
+
+    std::ofstream statsfile;
+    statsfile.open(Form("output/Stats-hMuIOxy-QCoinIO-%d.csv", run));
+    statsfile << "meanx,meany,stdx,stdy\n";
+    statsfile << hMuIOxy->GetMean(1) << ",";
+    statsfile << hMuIOxy->GetMean(2) << ",";
+    statsfile << hMuIOxy->GetStdDev(1) << ",";
+    statsfile << hMuIOxy->GetStdDev(2) << "\n";
+    statsfile.close();
+
      hMuIOxy->Draw();
      hMuIOxy->Draw("cont0 same");
      c1->cd(7);
