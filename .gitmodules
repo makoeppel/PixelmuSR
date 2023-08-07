@@ -1,3 +1,9 @@
 [submodule "musrsim"]
 	path = musrsim
 	url = git@bitbucket.org:zaher-salman/musrsim.git
+[submodule "corryvreckan"]
+	path = corryvreckan
+	url = git@github.com:simonspa/corryvreckan.git
+[submodule "beam_telescope_analysis"]
+	path = beam_telescope_analysis
+	url = https://github.com/SiLab-Bonn/beam_telescope_analysis.git

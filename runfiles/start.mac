@@ -37,7 +37,7 @@
 #=============================
 # WORLD VOLUME
 #
-/musr/command construct box             World          30   30    30                   G4_Galactic                  0      0       0    no_logical_volume norot  dead            -1
+/musr/command construct box             World          40   40    40                   G4_Galactic                  0      0       0    no_logical_volume norot  dead            -1
 #
 #############Remove here to test in GPS#####################
 #/musr/command construct tubs            tube            35.45 38.05  315      0    360     Steel                        0      0    -613    log_World         norot  dead          8201
@@ -309,7 +309,7 @@
 ######################### P A R T I C L E   G U N #################################
 ###################################################################################
 #
-/gun/vertex 0 0 -29 mm
+/gun/vertex 0 0 -39 mm
 # FWHM 10mm ==> sigma = 10/2.354 = 4.2481mm
 #####################
 #/gun/vertexsigma 0 0 0 mm

@@ -23,6 +23,7 @@ for pmidx, pm in enumerate(["minus", "plus"]):
         # Inner set of pixel detectors
         sawInnerSet = False
         sawOuterSet = False
+        sawKapton = False
         sawAll = False
         new_file = ""
         with open("runfiles/start.mac") as file:
@@ -39,7 +40,13 @@ for pmidx, pm in enumerate(["minus", "plus"]):
                     sawInnerSet = False
                     sawOuterSet = True
                     continue
-                if "Kapton" in line:
+                if "Add Kapton support layers" in line:
+                    new_file += line
+                    sawKapton = True
+                    sawOuterSet = False
+                    sawInnerSet = False
+                    continue
+                if "# OUTER SHIELD" in line:
                     new_file += line
                     sawAll = True
                     continue
@@ -51,7 +58,7 @@ for pmidx, pm in enumerate(["minus", "plus"]):
                     s = line.replace("   "," ").replace("  ", " ").split(" ")
                     cur_s = line.replace("   "," ").replace("  ", " ").split(" ")
                     for i, si in enumerate(s):
-                        if si == "log_World" and cur_s[i-1] == "20.0":
+                        if si == "log_World" and (cur_s[i-1] == "20.0" or cur_s[i-1] == "20.038"):
                             if pm == "minus":
                                 cur_s[i-1] = str(float(cur_s[i-1])-run)
                                 spacing.append(10-run)
