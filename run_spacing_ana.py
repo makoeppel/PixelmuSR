@@ -12,11 +12,6 @@ parser.add_argument('-r', '--root', action='store', type=str, default="n", help=
 args = parser.parse_args()
 
 #root -e "#include \"SiSpect.h\"" -e "#include \"SiSpect.C\""
-spacing = []
-meanX = []
-meanY = []
-stdX = []
-stdY = []
 for pmidx, pm in enumerate(["minus", "plus"]):
     for run in range(10):
         # start to create run files
@@ -61,10 +56,8 @@ for pmidx, pm in enumerate(["minus", "plus"]):
                         if si == "log_World" and (cur_s[i-1] == "20.0" or cur_s[i-1] == "20.038"):
                             if pm == "minus":
                                 cur_s[i-1] = str(float(cur_s[i-1])-run)
-                                spacing.append(10-run)
                             if pm == "plus":
                                 cur_s[i-1] = str(float(cur_s[i-1])+run)
-                                spacing.append(10+run)
                         if si == "log_World" and cur_s[i-1] == "-20.0":
                             if pm == "minus":
                                 cur_s[i-1] = str(float(cur_s[i-1])+run)
@@ -102,15 +95,24 @@ for pmidx, pm in enumerate(["minus", "plus"]):
             subprocess.run(f"root -q run_spacing_ana_{run}_{pm}.C", shell=True)
             subprocess.run(f"rm run_spacing_ana_{run}_{pm}.C", shell=True)
 
-        # remove last 3 elements
-        spacing = spacing[:len(spacing)-3]
+# plot stuff
+spacing = []
+meanX = []
+meanY = []
+stdX = []
+stdY = []
+for pmidx, pm in enumerate(["minus", "plus"]):
+    for run in range(10):
+        if pm == "minus":
+            spacing.append(10-run)
+        if pm == "plus":
+            spacing.append(10+run)
         df = pd.read_csv(f"output/Stats-hMuIOxy-QCoinIO-{run+10*pmidx}.csv")
         meanX.append(df["meanx"].values[0])
         meanY.append(df["meany"].values[0])
         stdX.append(df["stdx"].values[0])
         stdY.append(df["stdy"].values[0])
 
-# plot stuff
 fig, axs = plt.subplots(2, 2, constrained_layout=True)
 axs[0][0].plot(spacing, meanX, ".")
 axs[0][0].set(xlabel='distance layers', ylabel='meanX')
